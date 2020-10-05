@@ -1,6 +1,11 @@
 package com.template
 
+import com.template.flows.PreAuthFlow
+import com.template.states.PreAuth
 import net.corda.client.rpc.CordaRPCClient
+import net.corda.core.contracts.UniqueIdentifier
+import net.corda.core.identity.CordaX500Name
+import net.corda.core.messaging.startTrackedFlow
 import net.corda.core.utilities.NetworkHostAndPort.Companion.parse
 import net.corda.core.utilities.loggerFor
 
@@ -36,6 +41,12 @@ private class Client {
         val me = proxy.nodeInfo().legalIdentities.first().name
         println("\n-- Here is the node info of the node that the client connected to --")
         logger.info("{}", me)
+
+        /*val mee = proxy.nodeInfo().legalIdentities.first()
+        val tpaa = proxy.wellKnownPartyFromX500Name(CordaX500Name.parse("O=TPA, L=London, C=GB")) ?: throw IllegalArgumentException("Unknown party name.")
+        val Insurerer = proxy.wellKnownPartyFromX500Name(CordaX500Name.parse("O=Insurer, L=New York, C=US")) ?: throw IllegalArgumentException("Unknown party name.")
+        val PreAuthState = PreAuth(UniqueIdentifier(), mee, tpaa, Insurerer, 2020, 10, "Fever", "FeverWala", "Lokesh", "Pending", UniqueIdentifier(), listOf(mee, tpaa))
+        val result  = proxy.startTrackedFlow(::PreAuthFlow, PreAuthState).returnValue.get()*/
 
         //Close the client connection
         clientConnection.close()
